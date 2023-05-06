@@ -4,11 +4,21 @@ include_once "conexao.php";
 
 try {
     $nome = filter_var($_POST['nome']);
-    $login = filter_var($_POST['login']);
+    $email = filter_var($_POST['email']);
+    $senha = filter_var($_POST['senha']);
 
-    $insert = $conectar->prepare("INSERT INTO login (nome, login) VALUES (:nome, :login)");
+    if (empty($nome) || empty($email) || empty($senha)) {
+        echo "Por favor, preencha todos os campos.";
+        exit;
+    }
+
+    // Criptografar a senha usando password_hash()
+    // $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
+
+    $insert = $conn->prepare("INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)");
     $insert->bindParam(':nome', $nome);
-    $insert->bindParam(':login', $login);
+    $insert->bindParam(':email', $email);
+    $insert->bindParam(':senha', $senha);
     $insert->execute();
 
     header("location: index.php");
@@ -19,10 +29,5 @@ try {
     echo $e->getMessage();
 
 }
-
-
-
-
-
 
 ?>

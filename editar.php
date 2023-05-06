@@ -6,12 +6,14 @@ try {
 
     $id = filter_var($_POST['id'], FILTER_SANITIZE_NUMBER_INT);
     $nome = filter_var($_POST['nome']);
-    $login = filter_var($_POST['login']);
+    $email = filter_var($_POST['email']);
+    $senha = filter_var($_POST['senha']);
 
-    $update = $conectar->prepare("UPDATE login SET nome = :nome, login = :login WHERE id = :id");
+    $update = $conn->prepare("UPDATE usuarios SET nome = :nome, email = :email, senha = :senha WHERE id = :id");
     $update->bindParam(':id', $id);
     $update->bindParam(':nome', $nome);
-    $update->bindParam(':login', $login);
+    $update->bindParam(':email', $email);
+    $update->bindParam(':senha', $senha);
     $update->execute();
 
     header("location: index.php");
